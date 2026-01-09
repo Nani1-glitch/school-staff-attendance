@@ -197,7 +197,7 @@ export default function Reports() {
   }
 
   return (
-    <div className="space-y-5 animate-fade-in">
+    <div className="space-y-5 animate-fade-in pb-6">
       <div className="flex items-center justify-between mb-6 animate-slide-up">
         <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-cyan-400">Reports</h2>
         <div className="flex gap-3">

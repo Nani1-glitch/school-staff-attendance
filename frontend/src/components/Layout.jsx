@@ -9,9 +9,9 @@ export default function Layout() {
   const location = useLocation();
 
   return (
-    <div className="h-full flex flex-col pb-20 safe-bottom">
+    <div className="min-h-screen flex flex-col pb-20 safe-bottom">
       <Header />
-      <main className="flex-1 px-4 py-4 pb-4 overflow-y-auto" style={{ WebkitOverflowScrolling: 'touch' }}>
+      <main className="flex-1 px-4 py-4 pb-6 overflow-y-auto" style={{ WebkitOverflowScrolling: 'touch', maxHeight: 'calc(100vh - 140px)' }}>
         <Outlet />
       </main>
       <BottomNav />

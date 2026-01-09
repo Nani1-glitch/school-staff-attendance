@@ -85,7 +85,7 @@ export default function Settings() {
   }
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="space-y-6 animate-fade-in pb-6">
       <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-cyan-400 animate-slide-up">Settings</h2>
 
       {/* School Settings */}

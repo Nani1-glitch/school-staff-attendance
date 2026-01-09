@@ -58,7 +58,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="space-y-6 animate-fade-in pb-4">
+    <div className="space-y-6 animate-fade-in pb-6">
       {/* Date and Time Header */}
       <div className="bg-gradient-to-br from-white to-blue-50 dark:from-gray-800 dark:to-gray-700 rounded-3xl shadow-lg p-8 border border-blue-100 dark:border-gray-700 hover-lift animate-slide-up">
         <div className="flex items-center justify-between mb-6">
