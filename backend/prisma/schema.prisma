@@ -1,0 +1,88 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(uuid())
+  name         String
+  role         String   // ADMIN or TEACHER
+  phoneOrEmail String   @unique
+  pinHash      String
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  teacherProfile Teacher?
+  editedRecords  AttendanceRecord[] @relation("EditedBy")
+
+  @@index([phoneOrEmail])
+  @@index([role])
+}
+
+model Teacher {
+  id         String   @id @default(uuid())
+  userId     String   @unique
+  name       String
+  department String
+  subject    String
+  active     Boolean  @default(true)
+  photoUrl   String?
+  createdAt  DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  user         User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  attendance   AttendanceRecord[]
+
+  @@index([department])
+  @@index([active])
+}
+
+model AttendanceRecord {
+  id           String   @id @default(uuid())
+  teacherId   String
+  date         String   // YYYY-MM-DD format
+  status       String   @default("NOT_MARKED") // PRESENT, ABSENT, LEAVE, HALF_DAY, NOT_MARKED
+  timeIn       String?  // HH:mm format
+  timeOut      String?  // HH:mm format
+  totalMinutes Int?     // Total worked minutes
+  lateMinutes  Int      @default(0)
+  earlyMinutes Int      @default(0)
+  notes        String?
+  editedBy     String?
+  editReason   String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  teacher Teacher @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  editor  User?   @relation("EditedBy", fields: [editedBy], references: [id])
+
+  @@unique([teacherId, date])
+  @@index([date])
+  @@index([status])
+  @@index([teacherId, date])
+}
+
+model SchoolSettings {
+  id            String   @id @default("default")
+  startTime     String   @default("09:00") // HH:mm format
+  endTime       String   @default("17:00") // HH:mm format
+  graceMinutes  Int      @default(15)      // Grace period for late arrival
+  halfDayMinutes Int     @default(240)      // 4 hours = half day threshold
+  timezone      String   @default("UTC")
+  weekendDays   String   @default("Saturday,Sunday") // Comma-separated
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("school_settings")
+}
